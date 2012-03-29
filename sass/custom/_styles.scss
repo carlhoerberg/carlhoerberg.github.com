@@ -1,2 +1,23 @@
 // This File is imported last, and will override other styles in the cascade
 // Add styles here to make changes without digging in too much
+
+aside.sidebar #links {
+  li {
+    display: inline;
+    border: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    img {
+      border: none;
+      box-shadow: none;
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+    }
+    a {
+      word-wrap: normal;
+      white-space: normal;
+      text-decoration: none;
+    }
+  }
+}
