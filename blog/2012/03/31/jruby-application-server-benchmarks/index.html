@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Carl's dev blog</title>
+  <title>JRuby application server benchmarks - Carl's dev blog</title>
   <meta name="author" content="Carl Hörberg">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://carlhoerberg.github.com">
+  <link rel="canonical" href="http://carlhoerberg.github.com/blog/2012/03/31/jruby-application-server-benchmarks">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -74,15 +74,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2012/03/31/jruby-application-server-benchmarks/">JRuby Application Server Benchmarks</a></h1>
+      <h1 class="entry-title">JRuby Application Server Benchmarks</h1>
     
     
       <p class="meta">
@@ -105,7 +102,7 @@
   </header>
 
 
-  <div class="entry-content"><p>Now that <a href="http://carlhoerberg.github.com/blog/2012/03/29/run-jruby-on-heroku/">JRuby is so easy to run on Heroku</a> wanted I to see if there were any notable performance differences between the different <a href="https://github.com/jruby/jruby/wiki/Servers">JRuby server alternatives</a> available.</p>
+<div class="entry-content"><p>Now that <a href="http://carlhoerberg.github.com/blog/2012/03/29/run-jruby-on-heroku/">JRuby is so easy to run on Heroku</a> wanted I to see if there were any notable performance differences between the different <a href="https://github.com/jruby/jruby/wiki/Servers">JRuby server alternatives</a> available.</p>
 
 <h3>Entrants</h3>
 
@@ -220,22 +217,16 @@
 
 <p>But most notable is that Unicorn is still the best performer in terms of pure requests per second, this was a surprise as in theory a single threaded process-based model should be the slowest option. Also notable that Thin performed worst, although a more I/O bound application might have shown totally different results.</p>
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/03/29/run-jruby-on-heroku/">Run JRuby on Heroku</a></h1>
-    
-    
-      <p class="meta">
-        
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Carl Hörberg</span></span>
+
+      
 
 
 
@@ -247,36 +238,44 @@
   
 
 
-<time datetime="2012-03-29T14:22:00+02:00" pubdate data-updated="true">Mar 29<span>th</span>, 2012</time>
-        
-      </p>
+<time datetime="2012-03-31T19:32:00+02:00" pubdate data-updated="true">Mar 31<span>st</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/heroku/'>heroku</a>, <a class='category' href='/blog/categories/jruby/'>jruby</a>
+  
+</span>
+
+
+    </p>
     
-  </header>
-
-
-  <div class="entry-content"><p>A lot of different hacks has existed for a while now to run <a href="http://jruby.org">JRuby</a> on <a href="http://www.heroku.com">Heroku</a> but thanks a new Heroku feature called <a href="https://devcenter.heroku.com/articles/buildpacks">build packs</a> is now easy to implement and run your own runtime on Heroku.</p>
-
-<p>I did therefore create a build pack which downloads JRuby, install Bundler and run <code>bundler install</code>. After that it behaves exactly like a normal Heroku Ruby application.</p>
-
-<figure class='code'><figcaption><span>Create a JRuby backed Heroku app </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>heroku create -s cedar --buildpack https://github.com/carlhoerberg/heroku-buildpack-jruby.git
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Read more about the JRuby build pack at <a href="https://github.com/carlhoerberg/heroku-buildpack-jruby">github.com/carlhoerberg/heroku-buildpack-jruby</a>, or look at an example project: <a href="https://github.com/carlhoerberg/heroku-jruby-example">github.com/carlhoerberg/heroku-jruby-example</a>, which is deployed here: <a href="http://blazing-stone-2233.herokuapp.com/">blazing-stone-2233.herokuapp.com/</a>.</p>
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://carlhoerberg.github.com/blog/2012/03/31/jruby-application-server-benchmarks/" data-via="carlhoerberg" data-counturl="http://carlhoerberg.github.com/blog/2012/03/31/jruby-application-server-benchmarks/" >Tweet</a>
+  
+  
+  
 </div>
-  
-  
 
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/03/29/run-jruby-on-heroku/" title="Previous Post: Run JRuby on Heroku">&laquo; Run JRuby on Heroku</a>
+      
+      
+    </p>
+  </footer>
+</article>
 
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
+  </section>
+
+</div>
+
 <aside class="sidebar">
   
     <section>
@@ -324,7 +323,7 @@
 <section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   
   <script type="text/javascript">
@@ -352,7 +351,7 @@
 <section>
   <h1>Latest Tweets</h1>
   <ul id="tweets">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   <script type="text/javascript">
     $.domReady(function(){
@@ -372,6 +371,7 @@
   
 </aside>
 
+
     </div>
   </div>
   <footer role="contentinfo"><p>
@@ -386,7 +386,10 @@
       var disqus_shortname = 'carlhoerberg-blog';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://carlhoerberg.github.com/blog/2012/03/31/jruby-application-server-benchmarks/';
+        var disqus_url = 'http://carlhoerberg.github.com/blog/2012/03/31/jruby-application-server-benchmarks/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

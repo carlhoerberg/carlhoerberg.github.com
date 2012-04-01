@@ -4,7 +4,7 @@
   <title><![CDATA[Category: jruby | Carl's dev blog]]></title>
   <link href="http://carlhoerberg.github.com/blog/categories/jruby/atom.xml" rel="self"/>
   <link href="http://carlhoerberg.github.com/"/>
-  <updated>2012-03-29T16:23:59+02:00</updated>
+  <updated>2012-04-01T12:30:54+02:00</updated>
   <id>http://carlhoerberg.github.com/</id>
   <author>
     <name><![CDATA[Carl Hörberg]]></name>
@@ -12,6 +12,115 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[JRuby application server benchmarks]]></title>
+    <link href="http://carlhoerberg.github.com/blog/2012/03/31/jruby-application-server-benchmarks/"/>
+    <updated>2012-03-31T19:32:00+02:00</updated>
+    <id>http://carlhoerberg.github.com/blog/2012/03/31/jruby-application-server-benchmarks</id>
+    <content type="html"><![CDATA[<p>Now that <a href="http://carlhoerberg.github.com/blog/2012/03/29/run-jruby-on-heroku/">JRuby is so easy to run on Heroku</a> wanted I to see if there were any notable performance differences between the different <a href="https://github.com/jruby/jruby/wiki/Servers">JRuby server alternatives</a> available.</p>
+
+<h3>Entrants</h3>
+
+<p>The <a href="http://jruby.org">JRuby</a> alternatives:</p>
+
+<ul>
+<li><a href="https://github.com/trinidad/trinidad">Trinidad</a> - A wrapper around <a href="http://tomcat.apache.org/">Tomcat</a></li>
+<li><a href="https://github.com/matadon/mizuno">Mizuno</a> - A wrapper around <a href="http://jetty.codehaus.org/jetty/">Jetty</a></li>
+<li><a href="http://puma.io">Puma</a> - A thread-based server written in Ruby</li>
+</ul>
+
+
+<p>I also included two CRuby alternatives for reference:</p>
+
+<ul>
+<li><a href="http://code.macournoyer.com/thin/">Thin</a> - Event-based Ruby web server</li>
+<li><a href="http://unicorn.bogomips.org/">Unicorn</a> - Process-based Ruby web server</li>
+</ul>
+
+
+<h2>Benchmark approach</h2>
+
+<p>A small Rails application was deploy to <a href="http://www.heroku.com">Heroku</a> and <a href="http://www.joedog.org/siege-home/">Siege</a> was used to mesaure the transaction rate.</p>
+
+<p>The application was a one file Rails app:</p>
+
+<p>``` ruby config.ru
+require "rails"
+require "action_controller/railtie"</p>
+
+<p>class MyApp &lt; Rails::Application
+  routes.append do</p>
+
+<pre><code>match "/" =&gt; "hello#index"
+</code></pre>
+
+<p>  end
+  config.threadsafe!
+end</p>
+
+<p>class HelloController &lt; ActionController::Base
+  def index</p>
+
+<pre><code>@time = Time.now
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>MyApp.initialize!</p>
+
+<p>run MyApp
+```</p>
+
+<p>The rest of the code can be seen here: <a href="https://github.com/carlhoerberg/heroku-jruby-example">github.com/carlhoerberg/heroku-jruby-example</a>, each branch contains the specific configuration.</p>
+
+<p>Siege was run from a m1-small EC2 instance in the US-East-1 region, the same as Heroku. Siege was executed with the following parameters:</p>
+
+<p><code>$ siege -b -c 100 -t 60S http://jruby-puma.herokuapp.com/</code></p>
+
+<p>Which means that Siege made 100 concurrent connections continously during 60 seconds and measured the number of requests per second, among other things.</p>
+
+<h3>Configuration</h3>
+
+<ul>
+<li>Puma - max 200 threads</li>
+<li>Trinidad - max 200 threads</li>
+<li>Mizuno - max 10 threads (more was not possible due to <a href="https://github.com/matadon/mizuno/issues/22">this bug</a> I found)</li>
+<li>Thin - Default configuration</li>
+<li>Unicorn - 3 worker processes (which according to Michael van Rooijen is <a href="http://michaelvanrooijen.com/articles/2011/06/01-more-concurrency-on-a-single-heroku-dyno-with-the-new-celadon-cedar-stack/">the optimal number</a>)</li>
+</ul>
+
+
+<h2>Results</h2>
+
+<p>The requests/second result can be seen in the following diagram:</p>
+
+<p><img src="https://docs.google.com/spreadsheet/oimg?key=0AlUdaaoX8GlHdDRwczVDNVVxcWJpekVIUUhvcm9VWlE&amp;oid=1&amp;zx=zij8ut81d30z" alt="Transaction rate comparison" /></p>
+
+<p>The full results can be evaluated in <a href="https://gist.github.com/2262793/">this gist</a>.</p>
+
+<h2>Discussion</h2>
+
+<p>The application under test was a very rudimentary Rails application, it tested the basic Rails stack, included ERB rendering, but no I/O operations. This has a hugh impact in real application performance so as always, benchmark against your own application too!</p>
+
+<p>A small EC2 instance only got moderate I/O performance, this might have an impact on the results and yield varying metrics. With a simple Sinatra application all the servers performed at about 1000 transactions/second, so that might be the upper limit the instance (or Heroku) is limited to.</p>
+
+<p>I only tested a small number of server, but most of the other JRuby application servers are deprecated or not maintained, for a more complete list see the <a href="https://github.com/jruby/jruby/wiki/Servers">JRuby wiki entry on servers</a>.</p>
+
+<p>I didn't include <a href="http://torquebox.org/">Torquebox</a> as it's much harder to get running at Heroku. I might try to make a Torquebox specific build pack, but Torquebox also comes with a lot of features (like a built in MQ and a key-value store) which is not usable on the Heroku platform.</p>
+
+<h2>Summary</h2>
+
+<p><a href="https://github.com/trinidad/trinidad">Trinidad</a> has the best transaction rate among the JRuby web server alternatives at the moment. It also got more features than the others thanks to its <a href="https://github.com/trinidad/trinidad/wiki/Available-extensions">extension system</a>.</p>
+
+<p>Can't really recommend <a href="https://github.com/matadon/mizuno">Mizuno</a> at the moment due to the <a href="https://github.com/matadon/mizuno/issues/22">"crash on high load" bug</a> I found.</p>
+
+<p><a href="http://puma.io">Puma</a> is an interresting new alternative, a thread-based Ruby application server primarly written for Rubinius, it's seems well maintained and very light.</p>
+
+<p>But most notable is that Unicorn is still the best performer in terms of pure requests per second, this was a surprise as in theory a single threaded process-based model should be the slowest option. Also notable that Thin performed worst, although a more I/O bound application might have shown totally different results.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Run JRuby on Heroku]]></title>
