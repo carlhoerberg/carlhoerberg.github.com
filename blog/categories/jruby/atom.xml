@@ -4,7 +4,7 @@
   <title><![CDATA[Category: jruby | Carl's dev blog]]></title>
   <link href="http://carlhoerberg.github.com/blog/categories/jruby/atom.xml" rel="self"/>
   <link href="http://carlhoerberg.github.com/"/>
-  <updated>2012-04-08T13:17:48+02:00</updated>
+  <updated>2012-04-08T13:19:25+02:00</updated>
   <id>http://carlhoerberg.github.com/</id>
   <author>
     <name><![CDATA[Carl Hörberg]]></name>
@@ -129,7 +129,7 @@ end</p>
     <id>http://carlhoerberg.github.com/blog/2012/03/29/run-jruby-on-heroku</id>
     <content type="html"><![CDATA[<p>A lot of different hacks has existed for a while now to run <a href="http://jruby.org">JRuby</a> on <a href="http://www.heroku.com">Heroku</a> but thanks to a new Heroku feature called <a href="https://devcenter.heroku.com/articles/buildpacks">build packs</a> is now easy to implement and run your own runtime on Heroku.</p>
 
-<p>I therefore create a build pack which basically downloads JRuby, install Bundler and run <code>bundle install</code>. After that it behaves exactly like a normal Heroku Ruby application!</p>
+<p>I did therefore create a build pack which basically downloads JRuby, install Bundler and run <code>bundle install</code>. After that it behaves exactly like a normal Heroku Ruby application!</p>
 
 <p><code>sh Create a JRuby backed Heroku app
 $ heroku create -s cedar --buildpack https://github.com/carlhoerberg/heroku-buildpack-jruby.git
