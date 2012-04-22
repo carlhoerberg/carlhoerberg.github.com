@@ -4,7 +4,7 @@
   <title><![CDATA[Carl's dev blog]]></title>
   <link href="http://carlhoerberg.github.com/atom.xml" rel="self"/>
   <link href="http://carlhoerberg.github.com/"/>
-  <updated>2012-04-08T13:19:25+02:00</updated>
+  <updated>2012-04-22T23:24:44+02:00</updated>
   <id>http://carlhoerberg.github.com/</id>
   <author>
     <name><![CDATA[Carl Hörberg]]></name>
@@ -140,18 +140,29 @@
     <link href="http://carlhoerberg.github.com/blog/2012/03/29/run-jruby-on-heroku/"/>
     <updated>2012-03-29T14:22:00+02:00</updated>
     <id>http://carlhoerberg.github.com/blog/2012/03/29/run-jruby-on-heroku</id>
-    <content type="html"><![CDATA[<p>A lot of different hacks has existed for a while now to run <a href="http://jruby.org">JRuby</a> on <a href="http://www.heroku.com">Heroku</a> but thanks to a new Heroku feature called <a href="https://devcenter.heroku.com/articles/buildpacks">build packs</a> is now easy to implement and run your own runtime on Heroku.</p>
+    <content type="html"><![CDATA[<p>A lot of different hacks has existed for a while now to run <a href="http://jruby.org">JRuby</a> on <a href="http://www.heroku.com">Heroku</a> but thanks to a new Heroku feature called <a href="https://devcenter.heroku.com/articles/buildpacks">buildpacks</a> is now easy to implement and run your own runtime on Heroku.</p>
 
-<p>I did therefore create a build pack which basically downloads JRuby, install Bundler and run <code>bundle install</code>. After that it behaves exactly like a normal Heroku Ruby application!</p>
+<p>I did therefore create a buildpack which basically downloads JRuby, install Bundler and run <code>bundle install</code>. After that it behaves exactly like a normal Heroku Ruby application!</p>
 
 <figure class='code'><figcaption><span>Create a JRuby backed Heroku app </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>heroku create -s cedar --buildpack https://github.com/carlhoerberg/heroku-buildpack-jruby.git
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>heroku create -s cedar --buildpack https://github.com/jruby/heroku-buildpack-jruby.git
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Read more about the JRuby build pack at <a href="https://github.com/carlhoerberg/heroku-buildpack-jruby">github.com/carlhoerberg/heroku-buildpack-jruby</a></p>
+<p>Read more about the JRuby buildpack at <a href="https://github.com/jruby/heroku-buildpack-jruby">github.com/jruby/heroku-buildpack-jruby</a></p>
 
 <p>Take a look at an example application here: <a href="https://github.com/carlhoerberg/heroku-jruby-example">github.com/carlhoerberg/heroku-jruby-example</a></p>
+
+<h4>Update 2012-04-22</h4>
+
+<p>The buildpack is moved and now maintained under the JRuby organization: <a href="https://github.com/jruby/heroku-buildpack-jruby">github.com/jruby/heroku-buildpack-jruby</a></p>
+
+<p>If you already have created an application with the old buildpack url you can just update the environment variable to the new url:</p>
+
+<figure class='code'><figcaption><span>Change buildpack url</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>heroku config:add <span class="nv">BUILDPACK_URL</span><span class="o">=</span>https://github.com/jruby/heroku-buildpack-jruby
+</span></code></pre></td></tr></table></div></figure>
+
 ]]></content>
   </entry>
   
